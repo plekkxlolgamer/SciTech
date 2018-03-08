@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class GUI extends javax.swing.JFrame {
     private Manager man;
+    int points = 0;
     /**
      * Creates new form GUI
      */
@@ -24,7 +25,7 @@ public class GUI extends javax.swing.JFrame {
         try {
             initComponents();
             man=new Manager("Q&A.accdb");
-            actPoints.setText(man.getPoints()+"");
+            actPoints.setText(man.point+"");
             Display.setText(man.getQuestion());
         } catch (ClassNotFoundException ex) {
             System.err.println("Error in GUI() constructor: "+ex);
@@ -38,13 +39,14 @@ public class GUI extends javax.swing.JFrame {
         try {
             boolean correct = man.answer(letter);
             if(correct){
-                JOptionPane.showMessageDialog(this, "Well done!");
+                JOptionPane.showMessageDialog(this, "Bien Hecho!");
+                man.populateQuestions();
                 Display.setText(man.getQuestion());
-                actPoints.setText(man.getPoints()+"");
+                actPoints.setText(man.point+"");
             }
             else{
                 dispose();
-                JOptionPane.showMessageDialog(this, "You Lost! Your score was: "+man.points);
+                JOptionPane.showMessageDialog(this, "Has perdido!! Tu puntaje ha sido: "+man.point);
                 
             }
         } catch (SQLException ex) {

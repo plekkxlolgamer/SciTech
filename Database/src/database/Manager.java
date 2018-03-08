@@ -6,6 +6,7 @@
 package database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class Manager {
 	private static StorageManager SM;
@@ -13,6 +14,9 @@ public class Manager {
 	private int numQuestions;
 	public int points;
 	private question currentQuestion;
+        private Random r = new Random();
+        public int point = 0;
+        public int ap;
 	
 	public static int getRandom(int iMin, int iMax) {
 		int iRand=0;
@@ -21,7 +25,7 @@ public class Manager {
 	}
 	public Manager(String fileName) throws ClassNotFoundException, SQLException {
 		SM = new StorageManager(fileName);
-		points=0;
+		points=10;
 		populateQuestions();
 	}
 	public static StorageManager getSM() {
@@ -33,14 +37,14 @@ public class Manager {
 		numQuestions++;
         }
 	
-	public int getPoints() {
-		return points;
+	public int getPoint() {
+		return point;
 	}
 	public void setPoints(int points) {
 		this.points = points;
 	}
 	public void populateQuestions() throws SQLException {
-		numQuestions=0;
+		numQuestions=10;
 		String SQL="SELECT questionID, Question FROM Questions WHERE points="+points;
 		ResultSet result= SM.query(SQL);
 		while(result.next()) {
@@ -60,9 +64,9 @@ public class Manager {
 	}
 	public boolean answer(char answer) throws SQLException {
 		if (currentQuestion.isCorrect(answer)) {
-			points++;
+                      point = point+=10;
                         populateQuestions();
-			System.out.println(points);
+			System.out.println(ap);
                         return true;
 			
 		}else {

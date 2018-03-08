@@ -10,7 +10,6 @@ import java.sql.SQLException;
 
 public class question {
 	private String question;
-	
 	private int questionID;
 	private Answers[] answers= new Answers[4];
 	private int numAnswers=0;
@@ -18,7 +17,7 @@ public class question {
 	public question(String question, int questionID) throws SQLException {
 		this.question = question;
 		this.questionID = questionID;
-		String SQL = "SELECT answerid, correct FROM Answers WHERE questionfk="+this.questionID;
+		String SQL = "SELECT * FROM Answers WHERE questionfk="+this.questionID;
 		ResultSet result = Manager.getSM().query(SQL);
 		while(result.next()) {
 			String answer=result.getString("answer");
@@ -33,8 +32,8 @@ public class question {
 		
 		String display="";
 		String letters="ABCD";
-		for( int i =0; i< numAnswers; i++) {
-			display+=answers[i].toString(letters.charAt(i));
+		for( int i =0; i < numAnswers; i++) {
+			display=answers[i].toString(letters.charAt(i))+"\n";
 			
 		}
 		return question+"\n\n"+display;
